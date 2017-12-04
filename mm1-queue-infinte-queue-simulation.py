@@ -113,12 +113,12 @@ def main():
     print ("{0:<9} {1:<9} {2:<9} {3:<9} {4:<9} {5:<9} {6:<9} {7:<9}".format(
         "Lambda", "Count", "Min", "Max", "Mean", "Median", "Sd", "Utilization"))
     random.seed(RANDOM_SEED)
-    for arrival_rate in [0.2, 0.4, 0.6, 0.8,  0.9, 0.99]:
-        env = simpy.Environment()
-        Packet_Delay = StatObject()
-        Server_Idle_Periods = StatObject()
-        for B in [10, 50]:
-            router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B = B)
+    for B in [10, 50]:
+        for arrival_rate in [0.2, 0.4, 0.6, 0.8,  0.9, 0.99]:
+            env = simpy.Environment()
+            Packet_Delay = StatObject()
+            Server_Idle_Periods = StatObject()
+            router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, 10)
             env.process(router.packets_arrival(env))
             env.run(until=SIM_TIME)
             print ("{0:<9.3f} {1:<9} {2:<9.3f} {3:<9.3f} {4:<9.3f} {5:<9.3f} {6:<9.3f} {7:<9.3f}".format(
