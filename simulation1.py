@@ -110,8 +110,11 @@ class StatObject:
 
 def main():
     print("Simple queue system model:mu = {0}".format(MU))
-    print ("{0:<9} {1:<9} {2:<9} {3:<9} {4:<9} {5:<9} {6:<9} {7:<9}".format(
-        "Lambda", "Count", "Min", "Max", "Mean", "Median", "Sd", "Utilization"))
+    print(r"{:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} \\".format("B", "Lambda", "Count",
+                                                                                             "Min", "Max", "Mean",
+                                                                                             "Median", "Sd",
+                                                                                             "Utilization"))
+    print("\hline")
     random.seed(RANDOM_SEED)
     for B in [10, 50]:
         for arrival_rate in [0.2, 0.4, 0.6, 0.8,  0.9, 0.99]:
@@ -121,7 +124,7 @@ def main():
             router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B)
             env.process(router.packets_arrival(env))
             env.run(until=SIM_TIME)
-            print ("{} {:<9.3f} {:<9} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f}".format(
+            print(r"{:<9} & {:<9.3f} & {:<9} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} \\".format(
                 B,
                 round(arrival_rate, 3),
                 int(Packet_Delay.count()),
