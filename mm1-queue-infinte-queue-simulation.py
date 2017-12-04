@@ -117,17 +117,18 @@ def main():
         env = simpy.Environment()
         Packet_Delay = StatObject()
         Server_Idle_Periods = StatObject()
-        router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B = 9999999)
-        env.process(router.packets_arrival(env))
-        env.run(until=SIM_TIME)
-        print ("{0:<9.3f} {1:<9} {2:<9.3f} {3:<9.3f} {4:<9.3f} {5:<9.3f} {6:<9.3f} {7:<9.3f}".format(
-            round(arrival_rate, 3),
-            int(Packet_Delay.count()),
-            round(Packet_Delay.minimum(), 3),
-            round(Packet_Delay.maximum(), 3),
-            round(Packet_Delay.mean(), 3),
-            round(Packet_Delay.median(), 3),
-            round(Packet_Delay.standarddeviation(), 3),
-            round(1-Server_Idle_Periods.sum()/SIM_TIME, 3)))
+        for B in [10, 50]:
+            router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B = B)
+            env.process(router.packets_arrival(env))
+            env.run(until=SIM_TIME)
+            print ("{0:<9.3f} {1:<9} {2:<9.3f} {3:<9.3f} {4:<9.3f} {5:<9.3f} {6:<9.3f} {7:<9.3f}".format(
+                round(arrival_rate, 3),
+                int(Packet_Delay.count()),
+                round(Packet_Delay.minimum(), 3),
+                round(Packet_Delay.maximum(), 3),
+                round(Packet_Delay.mean(), 3),
+                round(Packet_Delay.median(), 3),
+                round(Packet_Delay.standarddeviation(), 3),
+                round(1-Server_Idle_Periods.sum()/SIM_TIME, 3)))
 
 if __name__ == '__main__': main()
