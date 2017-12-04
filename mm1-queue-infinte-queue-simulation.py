@@ -12,7 +12,7 @@ MU = 1
 
 """ Queue system  """		
 class server_queue:
-	def __init__(self, env, arrival_rate, Packet_Delay, Server_Idle_Periods):
+	def __init__(self, env, arrival_rate, Packet_Delay, Server_Idle_Periods, B):
 		self.server = simpy.Resource(env, capacity = 1)
 		self.env = env
 		self.queue_len = 0
@@ -23,12 +23,13 @@ class server_queue:
 		self.arrival_rate = arrival_rate
 		self.Packet_Delay = Packet_Delay
 		self.Server_Idle_Periods = Server_Idle_Periods
-		
+		self.B = B
+
 	def process_packet(self, env, packet):
 		with self.server.request() as req:
 			start = env.now
-			yield req
-			yield env.timeout(random.expovariate(MU))
+			yield req #yield until request received?
+			yield env.timeout(random.expovariate(MU)) #process packet, pass control back to simulation
 			latency = env.now - packet.arrival_time
 			self.Packet_Delay.addNumber(latency)
 			#print("Packet number {0} with arrival time {1} latency {2}".format(packet.identifier, packet.arrival_time, latency))
@@ -42,21 +43,22 @@ class server_queue:
 		
 		while True:
 		     # Infinite loop for generating packets
-			yield env.timeout(random.expovariate(self.arrival_rate))
+			yield env.timeout(random.expovariate(self.arrival_rate)) 
 			  # arrival time of one packet
 
-			self.packet_number += 1
-			  # packet id
-			arrival_time = env.now  
-			#print(self.num_pkt_total, "packet arrival")
-			new_packet = Packet(self.packet_number,arrival_time)
-			if self.flag_processing == 0:
-				self.flag_processing = 1
-				idle_period = env.now - self.start_idle_time
-				self.Server_Idle_Periods.addNumber(idle_period)
-				#print("Idle period of length {0} ended".format(idle_period))
-			self.queue_len += 1
-			env.process(self.process_packet(env, new_packet))
+			if self.queue_len < self.B:
+			    self.packet_number += 1
+			    # packet id
+			    arrival_time = env.now  
+			    #print(self.num_pkt_total, "packet arrival")
+			    new_packet = Packet(self.packet_number,arrival_time)
+			    if self.flag_processing == 0:
+			    	self.flag_processing = 1
+				    idle_period = env.now - self.start_idle_time
+				    self.Server_Idle_Periods.addNumber(idle_period)
+				    #print("Idle period of length {0} ended".format(idle_period))
+                self.queue_len += 1
+			    env.process(self.process_packet(env, new_packet))
 	
 
 """ Packet class """			
