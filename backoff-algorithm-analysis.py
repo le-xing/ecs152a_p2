@@ -9,12 +9,14 @@ SIM_TIME = 100000
 MU = 1
 
 class server:
-    def __init__(self, env, arrival_rate, num_hosts):
+    def __init__(self, env, arrival_rate, num_hosts, exponential):
         self.env = env
         self.hosts = []
         self.senders = []
         self.cur_time_slot = 0
         self.successful_slot = 0
+        self.exponential = exponential
+
         for host in range(0, num_hosts):
             Packet_Delay = StatObject()
             Server_Idle_Periods = StatObject()
@@ -37,9 +39,11 @@ class server:
                 #failed time slot, multiple senders
                 for host in self.senders:
                     #exponential backoff
-                    host.next_time_slot += 1 + random.randint(0, pow(2, min(host.n, 10))
+                    if self.exponential:
+                        host.next_time_slot += 1 + random.randint(0, pow(2, min(host.n, 10)))
                     #linear backoff
-                    #host.next_time_slot += min(host.n, 1024)
+                    else:
+                        host.next_time_slot += 1 + random.randint(0, min(host.n, 1024))
                     host.n += 1
             self.cur_time_slot += 1
             yield self.env.timeout(1)
@@ -141,13 +145,17 @@ class StatObject:
 
 def main():
     random.seed(RANDOM_SEED)
-    print("Total time slots: ", SIM_TIME)
-    print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total time slots", "Successful", "Throughput"))
-    for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
-        env = simpy.Environment()
-        new_server = server(env, arrival_rate, 10)
-        env.process(new_server.run_server(env))
-        env.run(until=SIM_TIME)
-        print(r"{:<9.3f} & {:<9} & {:<9} & {:<9.3f} \\".format(arrival_rate, new_server.cur_time_slot, new_server.successful_slot, new_server.successful_slot/new_server.cur_time_slot))
+    for backoff in ["Exponential", "Linear"]:
+        print("{}:\n".format(backoff))
+        print("Total time slots: ", SIM_TIME)
+        print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total time slots", "Successful", "Throughput"))
+        print(r"\hline")
+        for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
+            env = simpy.Environment()
+            new_server = server(env, arrival_rate, 10, backoff == "Exponential")
+            env.process(new_server.run_server(env))
+            env.run(until=SIM_TIME)
+            print(r"{:<9.3f} & {:<9} & {:<9} & {:<9.3f} \\".format(arrival_rate, new_server.cur_time_slot, new_server.successful_slot, new_server.successful_slot/new_server.cur_time_slot))
+        print()
 	
 if __name__ == '__main__': main()
