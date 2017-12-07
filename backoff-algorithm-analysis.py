@@ -30,17 +30,20 @@ class server:
                 #print("Host next time slot:", host.next_time_slot)
                 if(host.next_time_slot == self.cur_time_slot):
                     self.senders.append(host)
-            if len(self.senders) == 1 and self.senders[0].queue_len > 0:
+            if len(self.senders) == 1 and self.senders[0].queue_len > 0: #only one host sending, so no collisions 
                 #print("Successful Slot!")
                 self.successful_slot += 1
-                self.senders[0].n = 0
+                self.senders[0].n = 0 #packet successfully sent, reset number of retransmissions
+                self.senders[0].queue_len -= 1
+                self.senders[0].next_time_slot += 1
             else:
                 #print("Failed Slot", len(self.senders), " hosts tried to send")
                 for host in self.senders:
+                    #print("Host.N", host.n)
                     if host.n < 10:
                         host.next_time_slot += 1 + random.randint(0, pow(2,host.n))
                     else:
-                        host.next_time_slot += 1 + random.randint(0, pow(2,10))
+                        host.next_time_slot += 1 + random.randint(0, pow(2, 10))
                     host.n += 1
             self.cur_time_slot += 1
             self.senders = []
@@ -95,7 +98,7 @@ class server_queue:
                 self.Server_Idle_Periods.addNumber(idle_period)
                 #print("Idle period of length {0} ended".format(idle_period))
             self.queue_len += 1
-            env.process(self.process_packet(env, new_packet))
+ #           env.process(self.process_packet(env, new_packet))
 	
 
 """ Packet class """			
@@ -168,11 +171,11 @@ def main():
 #			round(1-Server_Idle_Periods.sum()/SIM_TIME, 3)))
 
     random.seed(RANDOM_SEED)
-    for arrival_rate in [0.01, 0.02, 0.03, 0.04]:
+    for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
         env = simpy.Environment()
         new_server = server(env, arrival_rate, 10)
         env.process(new_server.run_server(env))
         env.run(until=SIM_TIME)
-        print(new_server.cur_time_slot, new_server.successful_slot)
+        print(new_server.cur_time_slot, new_server.successful_slot, "Throughput:", new_server.successful_slot/new_server.cur_time_slot )
 	
 if __name__ == '__main__': main()
