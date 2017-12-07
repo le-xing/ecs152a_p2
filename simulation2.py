@@ -118,10 +118,11 @@ def main():
             env = simpy.Environment()
             Packet_Delay = StatObject()
             Server_Idle_Periods = StatObject()
-            router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, 10)
+            router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B)
             env.process(router.packets_arrival(env))
             env.run(until=SIM_TIME)
-            print ("{0:<9.3f} {1:<9} {2:<9.3f} {3:<9.3f} {4:<9.3f} {5:<9.3f} {6:<9.3f} {7:<9.3f}".format(
+            print(r"{:<9} & {:<9.3f} & {:<9} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} \\".format(
+                B,
                 round(arrival_rate, 3),
                 int(Packet_Delay.count()),
                 round(Packet_Delay.minimum(), 3),
