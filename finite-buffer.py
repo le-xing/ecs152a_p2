@@ -116,10 +116,10 @@ class StatObject:
 
 def main():
     print("Simple queue system model:mu = {0}".format(MU))
-    print(r"{:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} \\".format("B", "Lambda", "Count",
+    print(r"{:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} & {:<9} \\".format("B", "Lambda", "Count",
                                                                                              "Min", "Max", "Mean",
                                                                                              "Median", "Sd",
-                                                                                             "Utilization", "Dropped"))
+                                                                                             "Utilization", "Dropped", "$P_d$"))
     print("\hline")
     random.seed(RANDOM_SEED)
     for B in [10, 50]:
@@ -130,7 +130,7 @@ def main():
             router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B)
             env.process(router.packets_arrival(env))
             env.run(until=SIM_TIME)
-            print(r"{:<9} & {:<9.3f} & {:<9} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9} \\".format(
+            print(r"{:<9} & {:<9.3f} & {:<9} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9.3f} & {:<9} & {:<9.3f} \\".format(
                 B,
                 round(arrival_rate, 3),
                 int(Packet_Delay.count()),
@@ -140,6 +140,7 @@ def main():
                 round(Packet_Delay.median(), 3),
                 round(Packet_Delay.standarddeviation(), 3),
                 round(1-Server_Idle_Periods.sum()/SIM_TIME, 3),
-                int(router.dropped_pkts)))
+                int(router.dropped_pkts),
+                round(router.dropped_pkts/Packet_Delay.count(),3)))
 
 if __name__ == '__main__': main()
