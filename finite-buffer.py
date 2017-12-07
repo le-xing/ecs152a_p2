@@ -24,6 +24,8 @@ class server_queue:
         self.Packet_Delay = Packet_Delay
         self.Server_Idle_Periods = Server_Idle_Periods
         self.B = B
+        self.dropped_pkts = 0
+        self.total_pkts = 0
 
     def process_packet(self, env, packet):
         with self.server.request() as req:
@@ -46,6 +48,8 @@ class server_queue:
             yield env.timeout(random.expovariate(self.arrival_rate))
               # arrival time of one packet
 
+            self.total_pkts += 1
+
             if self.queue_len < self.B:
                 self.packet_number += 1
                 # packet id
@@ -59,6 +63,8 @@ class server_queue:
                     #print("Idle period of length {0} ended".format(idle_period))
                 self.queue_len += 1
                 env.process(self.process_packet(env, new_packet))
+            else:
+                self.dropped_pkts += 1
 
 
 """ Packet class """			
@@ -110,8 +116,8 @@ class StatObject:
 
 def main():
     print("Simple queue system model:mu = {0}".format(MU))
-    print ("{0:<9} {1:<9} {2:<9} {3:<9} {4:<9} {5:<9} {6:<9} {7:<9}".format(
-        "Lambda", "Count", "Min", "Max", "Mean", "Median", "Sd", "Utilization"))
+    print ("{0:<9} {1:<9} {2:<9} {3:<9} {4:<9} {5:<9} {6:<9} {7:<9} {8:<9} {9:<9} {10:<9}".format(
+        "B", "Lambda", "Count", "Min", "Max", "Mean", "Median", "Sd", "Utilization", "Total", "Dropped"))
     random.seed(RANDOM_SEED)
     for B in [10, 50]:
         for arrival_rate in [0.2, 0.4, 0.6, 0.8,  0.9, 0.99]:
@@ -121,7 +127,7 @@ def main():
             router = server_queue(env, arrival_rate, Packet_Delay, Server_Idle_Periods, B)
             env.process(router.packets_arrival(env))
             env.run(until=SIM_TIME)
-            print ("{} {:<9.3f} {:<9} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f} {:<9.3f}".format(
+            print ("{0:<9} {1:<9.3f} {2:<9} {3:<9.3f} {4:<9.3f} {5:<9.3f} {6:<9.3f} {7:<9.3f} {8:<9.3f} {9:<9} {10:<9}".format(
                 B,
                 round(arrival_rate, 3),
                 int(Packet_Delay.count()),
@@ -130,6 +136,8 @@ def main():
                 round(Packet_Delay.mean(), 3),
                 round(Packet_Delay.median(), 3),
                 round(Packet_Delay.standarddeviation(), 3),
-                round(1-Server_Idle_Periods.sum()/SIM_TIME, 3)))
+                round(1-Server_Idle_Periods.sum()/SIM_TIME, 3),
+                int(router.total_pkts),
+                int(router.dropped_pkts)))
 
 if __name__ == '__main__': main()
