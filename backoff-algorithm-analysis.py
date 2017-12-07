@@ -171,11 +171,13 @@ def main():
 #			round(1-Server_Idle_Periods.sum()/SIM_TIME, 3)))
 
     random.seed(RANDOM_SEED)
+    print("Total time slots: ", SIM_TIME)
+    print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total time slots", "Successful", "Throughput"))
     for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
         env = simpy.Environment()
         new_server = server(env, arrival_rate, 10)
         env.process(new_server.run_server(env))
         env.run(until=SIM_TIME)
-        print(new_server.cur_time_slot, new_server.successful_slot, "Throughput:", new_server.successful_slot/new_server.cur_time_slot )
+        print(r"{:<9.3f} & {:<9} & {:<9} & {:<9.3f} \\".format(arrival_rate, new_server.cur_time_slot, new_server.successful_slot, new_server.successful_slot/new_server.cur_time_slot))
 	
 if __name__ == '__main__': main()
