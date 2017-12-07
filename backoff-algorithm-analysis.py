@@ -146,9 +146,9 @@ class StatObject:
 def main():
     random.seed(RANDOM_SEED)
     for backoff in ["Exponential", "Linear"]:
-        print("{}:\n".format(backoff))
+        print("{}:".format(backoff))
         print("Total time slots: ", SIM_TIME)
-        print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total time slots", "Successful", "Throughput"))
+        print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total Time Slots", "Successful Transmissions", "Throughput"))
         print(r"\hline")
         for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
             env = simpy.Environment()

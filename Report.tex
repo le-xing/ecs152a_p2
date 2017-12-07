@@ -77,7 +77,7 @@ Simple queue system model:mu = 1 \\
 \section{}
 
 \section{}
-\begin{tabular}{c | c | c | c | c | c | c | c | c | c}
+\begin{tabular}{c | c | c | c | c | c | c | c | c | c | c}
 	B         & Lambda    & Count     & Min       & Max       & Mean      & Median    & Sd        & Utilization & Dropped   \\
 	\hline
 	10        & 0.200     & 200377    & 0.000     & 15.023    & 1.251     & 0.867     & 1.254     & 0.200     & 0         \\
@@ -92,7 +92,6 @@ Simple queue system model:mu = 1 \\
 	50        & 0.800     & 801180    & 0.000     & 48.397    & 4.976     & 3.456     & 4.933     & 0.801     & 0         \\
 	50        & 0.900     & 898139    & 0.000     & 68.222    & 9.539     & 6.721     & 9.105     & 0.897     & 334       \\
 	50        & 0.990     & 974218    & 0.000     & 79.242    & 23.823    & 22.600    & 15.271    & 0.975     & 16028     \\
-
 \end{tabular} \\
 
 \section{}
@@ -100,6 +99,36 @@ Simple queue system model:mu = 1 \\
 \part{}	
 	
 \section{}
+Exponential: \\
+\begin{tabular}{c | c | c | c}
+	Lambda    & Total Time Slots & Successful Transmissions & Throughput \\
+	\hline
+	0.010     & 100000    & 9912      & 0.099     \\
+	0.020     & 100000    & 19945     & 0.199     \\
+	0.030     & 100000    & 29811     & 0.298     \\
+	0.040     & 100000    & 39976     & 0.400     \\
+	0.050     & 100000    & 49616     & 0.496     \\
+	0.060     & 100000    & 59379     & 0.594     \\
+	0.070     & 100000    & 68745     & 0.687     \\
+	0.080     & 100000    & 76704     & 0.767     \\
+	0.090     & 100000    & 81354     & 0.814     \\
+\end{tabular} \\
+
+\noindent Linear: \\
+\begin{tabular}{c | c | c | c}
+	Lambda    & Total Time Slots & Successful Transmissions & Throughput \\
+	\hline
+	0.010     & 100000    & 9969      & 0.100     \\
+	0.020     & 100000    & 19953     & 0.200     \\
+	0.030     & 100000    & 28246     & 0.282     \\
+	0.040     & 100000    & 28851     & 0.289     \\
+	0.050     & 100000    & 29143     & 0.291     \\
+	0.060     & 100000    & 28670     & 0.287     \\
+	0.070     & 100000    & 28978     & 0.290     \\
+	0.080     & 100000    & 29153     & 0.292     \\
+	0.090     & 100000    & 28823     & 0.288     \\
+\end{tabular} \\
+
 
 \section{}
 
