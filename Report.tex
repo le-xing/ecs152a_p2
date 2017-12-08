@@ -32,7 +32,7 @@
 \part{}	
 	
 \section{}
-Simple queue system model:mu = 1 \\
+Simple queue system model:$\mu = 1$ \\
 \begin{center}
 \begin{tabular}{c | c | c | c | c | c | c | c}
 	Lambda & Count & Min & Max & Mean & Median & Sd & Utilization \\
@@ -47,6 +47,15 @@ Simple queue system model:mu = 1 \\
 \end{center}
 
 \section{}
+    Let $P(N=i) = \pi_i$ denote the probability that there are $i$ packets in the queue. Applying flow balance gives: 
+    $$\pi_0\lambda = \pi_1\mu \xrightarrow{} \pi_1 = \frac{\lambda}{\mu}\pi_0$$
+    $$\pi_1(\lambda + \mu) = \pi_0\lambda + \pi_2\mu \xrightarrow{} \pi_2 = (\frac{\lambda}{\mu})^2\pi_0$$
+    $$\pi_N = (\frac{\lambda}{\mu})^N\pi_0$$
+    The sum of the probabilities at each state must equal one such that
+    $$\pi_0 = 1 - \sum_{N=1}^{B}\pi_N = 1 - \pi_0\sum_{N=1}^{B}(\frac{\lambda}{\mu})^N = \frac{1}{\sum_{N=0}^{B}(\frac{\lambda}{\mu})^N}$$
+    Simplifying,
+    $$\pi_N = \frac{(\frac{\lambda}{\mu})^N}{\sum_{N=0}^{B}(\frac{\lambda}{\mu})^N}$$
+    Packet loss occurs when the buffer is full and a packet arrives, so the packet loss probability $P_d$ is determined by $$\lambda P(N=B) = \lambda \frac{(\frac{\lambda}{\mu})^B}{\sum_{N=0}^{B}(\frac{\lambda}{\mu})^N}$$
 
 \section{}
 \begin{center}
@@ -69,6 +78,25 @@ Simple queue system model:mu = 1 \\
 \end{center}
 
 \section{}
+\begin{center}
+\begin{tabular}{c | c | c | c}
+    B   & Lambda  & Simulation $P_d$    & Theoretical $P_d$ \\
+    \hline
+    10  & 0.200   & 0.000   & 0.000 \\
+    10  & 0.400   & 0.000   & 0.000 \\
+    10  & 0.600   & 0.003   & 0.002 \\ 
+    10  & 0.800   & 0.023   & 0.023 \\
+    10  & 0.900   & 0.054   & 0.051 \\
+    10  & 0.990   & 0.093   & 0.086 \\
+    50  & 0.200   & 0.000   & 0.000 \\
+    50  & 0.400   & 0.000   & 0.000 \\
+    50  & 0.600   & 0.000   & 0.000 \\
+    50  & 0.800   & 0.000   & 0.000 \\
+    50  & 0.900   & 0.000   & 0.001 \\
+    50  & 0.990   & 0.016   & 0.015 \\
+\end{tabular}
+\end{center}
+As shown by the table above, the simulation packet loss probability closely follows the theoretical packet loss probability.
 
 \part{}	
 	
