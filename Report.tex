@@ -29,40 +29,11 @@
 \sc \Large Project 2
 \end{center}	
 
-\noindent Client-Server\\
-\begin{tabular}{|c | c | c | c|}
-	\hline
-	u & \multicolumn{3}{|c|}{N} \\
-	\hline
-	 & 10 & 100 & 1000 \\
-	\hline
-	300 Kbps & 7500 & 50000 & 500000 \\
-	\hline
-	700 Kbps & 7500 & 50000 & 500000 \\
-	\hline
-	2 Mbps & 7500 & 50000 & 500000 \\
-	\hline
-\end{tabular} \\
-
-\noindent P2P\\
-\begin{tabular}{|c | c | c | c|}
-	\hline
-	u & \multicolumn{3}{|c|}{N} \\
-	\hline
-	& 10 & 100 & 1000 \\
-	\hline
-	300 Kbps & 7500 & 50000 & 500000 \\
-	\hline
-	700 Kbps & 7500 & 50000 & 500000 \\
-	\hline
-	2 Mbps & 7500 & 50000 & 500000 \\
-	\hline
-\end{tabular} \\
-
 \part{}	
 	
 \section{}
 Simple queue system model:mu = 1 \\
+\begin{center}
 \begin{tabular}{c | c | c | c | c | c | c | c}
 	Lambda & Count & Min & Max & Mean & Median & Sd & Utilization \\
 	\hline
@@ -73,33 +44,38 @@ Simple queue system model:mu = 1 \\
 	0.900 & 898679 & 0.000 & 90.886 & 9.558 & 6.698 & 9.370 & 0.897 \\
 	0.990 & 991142 & 0.000 & 419.359 & 86.938 & 64.409 & 76.626 & 0.990 \\
 \end{tabular} \\
+\end{center}
 
 \section{}
 
 \section{}
+\begin{center}
 \begin{tabular}{c | c | c | c | c | c | c | c | c | c | c}
-	B         & Lambda    & Count     & Min       & Max       & Mean      & Median    & Sd        & Utilization & Dropped   \\
+	B         & Lambda    & Count     & Min       & Max       & Mean      & Median    & Sd        & Utilization & Dropped   & $P_d$     \\
 	\hline
-	10        & 0.200     & 200377    & 0.000     & 15.023    & 1.251     & 0.867     & 1.254     & 0.200     & 0         \\
-	10        & 0.400     & 401172    & 0.000     & 23.096    & 1.664     & 1.154     & 1.660     & 0.402     & 23        \\
-	10        & 0.600     & 599482    & 0.000     & 24.461    & 2.455     & 1.730     & 2.375     & 0.601     & 1518      \\
-	10        & 0.800     & 781331    & 0.000     & 30.045    & 3.790     & 2.954     & 3.200     & 0.781     & 18248     \\
-	10        & 0.900     & 854259    & 0.000     & 32.460    & 4.640     & 3.931     & 3.528     & 0.854     & 45830     \\
-	10        & 0.990     & 905912    & 0.000     & 27.556    & 5.389     & 4.887     & 3.687     & 0.904     & 84557     \\
-	50        & 0.200     & 199916    & 0.000     & 14.758    & 1.241     & 0.859     & 1.244     & 0.199     & 0         \\
-	50        & 0.400     & 400067    & 0.000     & 26.712    & 1.664     & 1.152     & 1.666     & 0.399     & 0         \\
-	50        & 0.600     & 599600    & 0.000     & 30.476    & 2.491     & 1.733     & 2.477     & 0.599     & 0         \\
-	50        & 0.800     & 801180    & 0.000     & 48.397    & 4.976     & 3.456     & 4.933     & 0.801     & 0         \\
-	50        & 0.900     & 898139    & 0.000     & 68.222    & 9.539     & 6.721     & 9.105     & 0.897     & 334       \\
-	50        & 0.990     & 974218    & 0.000     & 79.242    & 23.823    & 22.600    & 15.271    & 0.975     & 16028     \\
+	10        & 0.200     & 200377    & 0.000     & 15.023    & 1.251     & 0.867     & 1.254     & 0.200     & 0         & 0.000     \\
+	10        & 0.400     & 401172    & 0.000     & 23.096    & 1.664     & 1.154     & 1.660     & 0.402     & 23        & 0.000     \\
+	10        & 0.600     & 599482    & 0.000     & 24.461    & 2.455     & 1.730     & 2.375     & 0.601     & 1518      & 0.003     \\
+	10        & 0.800     & 781331    & 0.000     & 30.045    & 3.790     & 2.954     & 3.200     & 0.781     & 18248     & 0.023     \\
+	10        & 0.900     & 854259    & 0.000     & 32.460    & 4.640     & 3.931     & 3.528     & 0.854     & 45830     & 0.054     \\
+	10        & 0.990     & 905912    & 0.000     & 27.556    & 5.389     & 4.887     & 3.687     & 0.904     & 84557     & 0.093     \\
+	50        & 0.200     & 199916    & 0.000     & 14.758    & 1.241     & 0.859     & 1.244     & 0.199     & 0         & 0.000     \\
+	50        & 0.400     & 400067    & 0.000     & 26.712    & 1.664     & 1.152     & 1.666     & 0.399     & 0         & 0.000     \\
+	50        & 0.600     & 599600    & 0.000     & 30.476    & 2.491     & 1.733     & 2.477     & 0.599     & 0         & 0.000     \\
+	50        & 0.800     & 801180    & 0.000     & 48.397    & 4.976     & 3.456     & 4.933     & 0.801     & 0         & 0.000     \\
+	50        & 0.900     & 898139    & 0.000     & 68.222    & 9.539     & 6.721     & 9.105     & 0.897     & 334       & 0.000     \\
+	50        & 0.990     & 974218    & 0.000     & 79.242    & 23.823    & 22.600    & 15.271    & 0.975     & 16028     & 0.016     \\
 \end{tabular} \\
+\end{center}
 
 \section{}
 
 \part{}	
 	
 \section{}
-Exponential: \\
+\subsection*{Exponential}
+\begin{center}
+\includegraphics[width=1\linewidth]{Exponential_plot}
 \begin{tabular}{c | c | c | c}
 	Lambda    & Total Time Slots & Successful Transmissions & Throughput \\
 	\hline
@@ -113,8 +89,11 @@ Exponential: \\
 	0.080     & 100000    & 76704     & 0.767     \\
 	0.090     & 100000    & 81354     & 0.814     \\
 \end{tabular} \\
+\end{center}
 
-\noindent Linear: \\
+\subsection*{Linear}
+\begin{center}
+\includegraphics[width=1\linewidth]{Linear_plot}
 \begin{tabular}{c | c | c | c}
 	Lambda    & Total Time Slots & Successful Transmissions & Throughput \\
 	\hline
@@ -128,6 +107,12 @@ Exponential: \\
 	0.080     & 100000    & 29153     & 0.292     \\
 	0.090     & 100000    & 28823     & 0.288     \\
 \end{tabular} \\
+\end{center}
+
+\subsection*{Exponential vs. Linear}
+\begin{center}
+\includegraphics[width=1\linewidth]{Exponential_Linear_plot}
+\end{center}
 
 
 \section{}

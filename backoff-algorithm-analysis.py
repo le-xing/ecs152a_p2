@@ -3,6 +3,7 @@
 import random
 import simpy
 import math
+import matplotlib.pyplot as plt
 
 RANDOM_SEED = 29
 SIM_TIME = 100000
@@ -145,17 +146,38 @@ class StatObject:
 
 def main():
     random.seed(RANDOM_SEED)
+    plotdata = []
     for backoff in ["Exponential", "Linear"]:
         print("{}:".format(backoff))
         print("Total time slots: ", SIM_TIME)
         print(r"{:<9} & {:<9} & {:<9} & {:<9} \\".format("Lambda", "Total Time Slots", "Successful Transmissions", "Throughput"))
         print(r"\hline")
-        for arrival_rate in [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]:
+        lambdas = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09]
+        throughputs = []
+        for arrival_rate in lambdas:
             env = simpy.Environment()
             new_server = server(env, arrival_rate, 10, backoff == "Exponential")
             env.process(new_server.run_server(env))
             env.run(until=SIM_TIME)
             print(r"{:<9.3f} & {:<9} & {:<9} & {:<9.3f} \\".format(arrival_rate, new_server.cur_time_slot, new_server.successful_slot, new_server.successful_slot/new_server.cur_time_slot))
+            throughputs.append(new_server.successful_slot/new_server.cur_time_slot)
         print()
+        # plot specific backoff
+        plt.plot(lambdas, throughputs)
+        plt.title("{} Backoff".format(backoff))
+        plt.xlabel("λ")
+        plt.ylabel("Throughput")
+        plt.savefig("{}_plot.png".format(backoff), bbox_inches='tight', dpi=600)
+        plt.show()
+        plotdata.append((lambdas, throughputs))
+    # print both on one plot
+    plt.plot(plotdata[0][0], plotdata[0][1], color='b', label="Exponential", alpha = 0.8)
+    plt.plot(plotdata[1][0], plotdata[1][1], color='r', label="Linear", alpha = 0.8)
+    plt.title("Exponential and Linear Backoff".format())
+    plt.xlabel("λ")
+    plt.ylabel("Throughput")
+    plt.legend()
+    plt.savefig("Exponential_Linear_plot.png", bbox_inches='tight', dpi=600)
+    plt.show()
 	
 if __name__ == '__main__': main()
