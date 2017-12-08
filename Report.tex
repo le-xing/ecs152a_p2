@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{multicol}
 \usepackage{tikz}
+\usetikzlibrary{automata,arrows,positioning,calc}
 \usepackage{listings}
 \renewcommand{\thepart}{\Roman{part}}
 %\renewcommand{\thesection}{\arabic{section}.}\\
@@ -47,6 +48,29 @@ Simple queue system model:$\mu = 1$ \\
 \end{center}
 
 \section{}
+	\begin{center}
+	   \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick]
+		  \tikzstyle{every state}=[fill=white,draw=black,text=black,minimum size=1.1cm]
+		
+		  \node[state] (A) {$N=0$};
+		  \node[state] (B) [right of=A] {$N=1$};
+		  \node[state] (C) [right of=B] {$N=2$};
+		  \node[state] (D) [right of=C] {$N=3$};
+		  \node[minimum size=1cm] (E) [right of=D] {$\cdots$};
+		  \node[state] (F) [right of=E] {$N=B$};
+		
+		  \path (A) edge [bend left] node {$\lambda$} (B);
+		  \path (B) edge [bend left] node {$\mu$} (A);
+		  \path (B) edge [bend left] node {$\lambda$} (C);
+		  \path (C) edge [bend left] node {$\mu$} (B);
+		  \path (C) edge [bend left] node {$\lambda$} (D);
+		  \path (D) edge [bend left] node {$\mu$} (C);
+		  \path (D) edge [bend left] node {$\lambda$} (E);
+		  \path (E) edge [bend left] node {$\mu$} (D);
+		  \path (E) edge [bend left] node {$\lambda$} (F);
+  		  \path (F) edge [bend left] node {$\mu$} (E);
+		\end{tikzpicture}
+	\end{center}
     Let $P(N) = \pi_N$ denote the probability that there are $N$ packets in the queue. Applying flow balance gives: 
     $$\pi_0\lambda = \pi_1\mu \xrightarrow{} \pi_1 = \frac{\lambda}{\mu}\pi_0$$
     $$\pi_1(\lambda + \mu) = \pi_0\lambda + \pi_2\mu \xrightarrow{} \pi_2 = (\frac{\lambda}{\mu})^2\pi_0$$
