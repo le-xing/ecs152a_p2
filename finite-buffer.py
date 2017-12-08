@@ -1,4 +1,9 @@
-# This is a simpy based  simulation of a M/M/1 queue system
+#Matteson Daniel-Padgett, 999096167
+#Lena Tan, 999098385
+
+# This is a simpy based simulation of a M/M/1 queue system with a finite buffer size.
+# The main() function evaluates the probability of packet loss at B=10 and B=50 for
+# various lambdas.
 
 import random
 import simpy
@@ -30,8 +35,8 @@ class server_queue:
     def process_packet(self, env, packet):
         with self.server.request() as req:
             start = env.now
-            yield req #yield until request received?
-            yield env.timeout(random.expovariate(MU)) #process packet, pass control back to simulation
+            yield req 
+            yield env.timeout(random.expovariate(MU))
             latency = env.now - packet.arrival_time
             self.Packet_Delay.addNumber(latency)
             #print("Packet number {0} with arrival time {1} latency {2}".format(packet.identifier, packet.arrival_time, latency))
@@ -51,6 +56,7 @@ class server_queue:
             self.total_pkts += 1
 
             if self.queue_len < self.B:
+                #buffer isn't full, add packet to queue
                 self.packet_number += 1
                 # packet id
                 arrival_time = env.now
@@ -64,6 +70,7 @@ class server_queue:
                 self.queue_len += 1
                 env.process(self.process_packet(env, new_packet))
             else:
+                #buffer is full, drop the packet
                 self.dropped_pkts += 1
 
 
