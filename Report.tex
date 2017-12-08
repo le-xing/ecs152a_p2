@@ -47,7 +47,7 @@ Simple queue system model:$\mu = 1$ \\
 \end{center}
 
 \section{}
-    Let $P(N=i) = \pi_i$ denote the probability that there are $i$ packets in the queue. Applying flow balance gives: 
+    Let $P(N) = \pi_N$ denote the probability that there are $N$ packets in the queue. Applying flow balance gives: 
     $$\pi_0\lambda = \pi_1\mu \xrightarrow{} \pi_1 = \frac{\lambda}{\mu}\pi_0$$
     $$\pi_1(\lambda + \mu) = \pi_0\lambda + \pi_2\mu \xrightarrow{} \pi_2 = (\frac{\lambda}{\mu})^2\pi_0$$
     $$\pi_N = (\frac{\lambda}{\mu})^N\pi_0$$
@@ -100,8 +100,7 @@ As shown by the table above, the simulation packet loss probability closely foll
 
 \part{}	
 	
-\section{}
-\subsection*{Exponential}
+\section*{Exponential}
 \begin{center}
 \includegraphics[width=1\linewidth]{Exponential_plot}
 \begin{tabular}{c | c | c | c}
@@ -119,7 +118,7 @@ As shown by the table above, the simulation packet loss probability closely foll
 \end{tabular} \\
 \end{center}
 
-\subsection*{Linear}
+\section*{Linear}
 \begin{center}
 \includegraphics[width=1\linewidth]{Linear_plot}
 \begin{tabular}{c | c | c | c}
@@ -137,13 +136,10 @@ As shown by the table above, the simulation packet loss probability closely foll
 \end{tabular} \\
 \end{center}
 
-\subsection*{Exponential vs. Linear}
+\section*{Exponential vs. Linear}
 \begin{center}
 \includegraphics[width=1\linewidth]{Exponential_Linear_plot}
 \end{center}
-
-
-\section{}
 
 \end{document}
 \grid
