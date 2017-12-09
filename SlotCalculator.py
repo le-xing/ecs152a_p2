@@ -1,2 +1,3 @@
 import sys
-print(round(float(sys.argv[1]) * float(sys.argv[2])))
+k = min(int(sys.argv[1]), 10)
+print(round((2**k) * float(sys.argv[2])))
