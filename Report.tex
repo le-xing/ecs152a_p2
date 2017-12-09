@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{amsmath}
+\newcounter{magicrownumbers}
+\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+\setcounter{magicrownumbers}{99}
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{automata,arrows,positioning,calc}
@@ -123,6 +126,20 @@ Simple queue system model:$\mu = 1$ \\
 As shown by the table above, the simulation packet loss probability closely follows the theoretical packet loss probability.
 
 \part{}	
+\section*{Hand Simulation}
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
+	\hline
+    Timestep & \multicolumn{3}{|c|}{Node 1} & \multicolumn{3}{|c|}{Node 2} & \multicolumn{3}{|c|}{Node 3} \\
+    \cline{2-10}
+      & L & S & N & L & S & N & L & S & N \\
+    \hline
+    \rownumber & 2 & 100 & 0 & 3 & 100 & 0 & 2 & 100 & 0 \\
+    \hline
+    \rownumber &  &  &  &  &  &  &  &  &  \\
+    \hline
+\end{tabular}
+\end{center}
 	
 \section*{Exponential}
 \begin{center}
