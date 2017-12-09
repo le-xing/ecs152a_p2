@@ -19,7 +19,20 @@
 \counterwithin*{section}{part}
 \usepackage{color}
 \usepackage{pgfplots}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{setspace}
+\usepackage{palatino}
 %\usepackage{minted}
+
+\lstset{
+  basicstyle=\ttfamily\small\setstretch{1},
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
 
 \begin{document}
 	\null\hfill\begin{tabular}[t]{l@{}}

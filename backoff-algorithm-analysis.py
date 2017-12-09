@@ -3,7 +3,7 @@
 
 # This is a simpy simulation of 10 hosts, each with their own infinite server queues.
 # The main() function runs both the exponential and linear backoff algorithms on its own
-# and prints out a LaTex formmatted table of the throughput at various lambdas.
+# and prints out a LaTex formatted table of the throughput at various lambdas.
 
 import random
 import simpy
