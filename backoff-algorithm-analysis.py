@@ -1,4 +1,9 @@
-# This is a simpy based  simulation of a M/M/1 queue system
+# Matteson Daniel-Padgett, 999096167
+# Lena Tan, 999098385
+
+# This is a simpy simulation of 10 hosts, each with their own infinite server queues.
+# The main() function runs both the exponential and linear backoff algorithms on its own
+# and prints out a LaTex formmatted table of the throughput at various lambdas.
 
 import random
 import simpy
@@ -29,23 +34,24 @@ class server:
             #start packet arrival process for each host
             env.process(host.packets_arrival(env))
         while True:
+            #add host to list of senders if it is trying to send a packet at the current time slot
             self.senders = [host for host in self.hosts if host.next_time_slot == self.cur_time_slot]
             if len(self.senders) == 1 and self.senders[0].queue_len > 0:
-                #one host sending, successful
+                #one host sending, successful packet transmission
                 self.successful_slot += 1
-                self.senders[0].n = 0
+                self.senders[0].num_retransmit = 0
                 self.senders[0].queue_len -= 1
                 self.senders[0].next_time_slot += 1
             else:
-                #failed time slot, multiple senders
+                #multiple senders, failed packet transmission
                 for host in self.senders:
                     #exponential backoff
                     if self.exponential:
-                        host.next_time_slot += 1 + random.randint(0, pow(2, min(host.n, 10)))
+                        host.next_time_slot += 1 + random.randint(0, pow(2, min(host.num_retransmit, 10)))
                     #linear backoff
                     else:
-                        host.next_time_slot += 1 + random.randint(0, min(host.n, 1024))
-                    host.n += 1
+                        host.next_time_slot += 1 + random.randint(0, min(host.num_retransmit, 1024))
+                    host.num_retransmit += 1
             self.cur_time_slot += 1
             yield self.env.timeout(1)
 
@@ -64,7 +70,7 @@ class server_queue:
         self.Packet_Delay = Packet_Delay
         self.Server_Idle_Periods = Server_Idle_Periods
         self.next_time_slot = 0
-        self.n = 0
+        self.num_retransmit = 0
 		
     def process_packet(self, env, packet):
         with self.server.request() as req:
