@@ -202,6 +202,7 @@ As shown by the table above, the simulation packet loss probability closely foll
 \begin{center}
 \includegraphics[width=1\linewidth]{Exponential_Linear_plot}
 \end{center}
+The binary exponential backoff algorithm results in a linear growth in throughput such that the number of successful transmissions increases with increasing arrival rates. With each collision, each host involved has an increasing range of delay it may be subject to such that future collisions become less and less likely to occur. So with this significantly lowered collision rate, as the rate of packets arriving increases, so does the throughput. However, the linear backoff algorithm plateaus, and increasing the packet arrival rate does not increase the throughput. In this algorithm, the range of the time slot delay for each host grows much slower, so it becomes more likely for future collisions to take place than with the exponential backoff algorithm. So, as the arrival rate continually increases, successful transmissions are not as likely and throughput remains relatively low.
 
 \section*{Code}
 \lstinputlisting[language=Python]{backoff-algorithm-analysis.py}
