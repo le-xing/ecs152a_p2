@@ -13,13 +13,13 @@
 \renewcommand{\thesection}{\arabic{section}.}
 \renewcommand{\thesubsection}{\arabic{subsection}.}
 %\renewcommand{\thesubsection}{\alph{subsection})}
-\usepackage[numbered,framed]{matlab-prettifier}
 \usepackage{enumerate}
 \usepackage{hyperref}
 \usepackage{chngcntr}
 \counterwithin*{section}{part}
 \usepackage{color}
 \usepackage{pgfplots}
+%\usepackage{minted}
 
 \begin{document}
 	\null\hfill\begin{tabular}[t]{l@{}}
@@ -33,8 +33,7 @@
 \sc \Large Project 2
 \end{center}	
 
-\part{}	
-	
+\part{}
 \section{}
 Simple queue system model:$\mu = 1$ \\
 \begin{center}
@@ -125,6 +124,10 @@ Simple queue system model:$\mu = 1$ \\
 \end{center}
 As shown by the table above, the simulation packet loss probability closely follows the theoretical packet loss probability.
 
+\section*{Code}
+%\inputminted{python}{finite-buffer.py}
+\lstinputlisting[language=Python]{finite-buffer.py}
+
 \part{}	
 \section*{Hand Simulation}
 \begin{center}
@@ -200,6 +203,7 @@ As shown by the table above, the simulation packet loss probability closely foll
 \includegraphics[width=1\linewidth]{Exponential_Linear_plot}
 \end{center}
 
+\section*{Code}
+\lstinputlisting[language=Python]{backoff-algorithm-analysis.py}
+
 \end{document}
-\grid
-\grid
